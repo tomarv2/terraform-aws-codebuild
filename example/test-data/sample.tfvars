@@ -13,10 +13,17 @@ service_role                          = "arn:aws:iam::123456789012:role/service-
 description                           = "codebuild deployment"
 environment_vars                      = [{name = "BUILD_ROLE", value = "arn:aws:iam::xxxx:role/DemoRole", type = "PLAINTEXT"},
                                         {name = "AWS_REGION", value = "us-east-2"},
-                                        {name = "SAS_TOKEN", value = "?sv=2019-12-12xxxxxxx", type = "PARAMETER_STORE"}]
+                                        {name = "BLOB_OUTPUT", value = "s3://demo-s3-bucket/executions/{policy_name}/{account_id}/{now:%Y/%m/%d}/{uuid}"},
+                                        {name = "SAS_TOKEN", value = "?sv=2019-12-12xxxxxxx"type = "PARAMETER_STORE"},
+                                        {name = "AZURE_CLIENT_ID", value = "xxxxxxx"},
+                                        {name = "AZURE_TENANT_ID", value = "xxxxxxxxx"},
+                                        {name = "AZURE_CLIENT_SECRET", value = "xxxxxxx", type = "PARAMETER_STORE"},
+                                        {name = "AZURE_SUBSCRIPTION_ID", value = "xxxxxxxx"},
+                                        {name = "STORAGE_ACCOUNT_NAME", value = "xxxxxxxxx"},
+                                        {name = "CONTAINER_NAME", value = "demo-aci-policies"}]
 #-------------------------------------------------------------------
 # Note: Do not change teamid and prjid once set.
 teamid                                = "rumse"
-prjid                                 = "demo-codebuild"
+prjid                                 = "demo-build"
 
 

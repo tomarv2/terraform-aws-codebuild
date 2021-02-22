@@ -61,7 +61,3 @@ tf -cloud aws destroy -var-file <path to .tfvars file>
 ```
 
 Please refer to example directory [link](example/README.md) for references.
-
-
-
-

@@ -14,55 +14,77 @@ variable "profile_to_use" {
   description = "Getting values from ~/.aws/credentials"
 }
 
-variable "build_source_type" {}
+variable "build_source_type" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
-variable "build_source_location" {}
+variable "build_source_location" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
-variable "aws_region" {}
+variable "aws_region" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
-variable "image_version" {}
+variable "image_version" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
-variable "image_env" {}
+variable "image_env" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
-variable "buildspec_filepath" {}
+variable "buildspec_filepath" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
 variable "environment_vars" {
   type = list(object({
-      name  = string
-      value = string
-      type  = string
+    name  = string
+    value = string
+    type  = string
   }))
   default = [
-    {
-      name  = "NO_ADDITIONAL_BUILD_VARS"
-      value = "TRUE"
-      type  = "PLAINTEXT"
+  {
+    name  = "NO_ADDITIONAL_BUILD_VARS"
+    value = "TRUE"
+    type  = "PLAINTEXT"
   }]
   description = "A list of maps, that contain both the key 'name' and the key 'value' to be used as additional environment variables for the build"
 }
 
 variable "description" {
+  description = "Getting values from ~/.aws/credentials"
   default = "codebuild pipeline"
 }
 
-variable "schedule" {}
+variable "schedule" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
-variable "branch" {}
+variable "branch" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
 variable "codebuild_role" {
   description = "service role to be used by CICD"
 }
 
-variable "build_artifact_type" {}
+variable "build_artifact_type" {
+  description = "Getting values from ~/.aws/credentials"
+}
 
 variable "privileged_mode" {
+  description = "Getting values from ~/.aws/credentials"
   default = true
 }
 
 variable "add_eventrule" {
+  description = "Getting values from ~/.aws/credentials"
   default = false
 }
 
 variable "add_eventtarget" {
+  description = "Getting values from ~/.aws/credentials"
   default = false
 }
