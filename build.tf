@@ -8,6 +8,7 @@ resource "aws_codebuild_project" "codebuild" {
   service_role                  = var.codebuild_role
   artifacts {
     type                        = var.build_artifact_type
+    override_artifact_name      = true
   }
 
   environment {
