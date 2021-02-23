@@ -8,12 +8,12 @@ resource "aws_codebuild_project" "codebuild" {
   service_role                  = var.codebuild_role
   artifacts {
     type                        = var.build_artifact_type
-    override_artifact_name      = true
+    override_artifact_name      = var.override_artifact_name
   }
 
   environment {
     compute_type                = var.compute_type
-    image                       = "${var.image_env}:${var.image_version}"
+    image                       = "${var.image_repo_name}:${var.image_tag}"
     type                        = var.container_type
     privileged_mode             = var.privileged_mode
 
@@ -30,13 +30,20 @@ resource "aws_codebuild_project" "codebuild" {
   source {
     type                          = var.build_source_type
     location                      = var.build_source_location
-    git_clone_depth               = 1
+    git_clone_depth               = var.git_clone_depth
     buildspec                     = file(var.buildspec_filepath)
-//    auth {
-//      type                        = "OAUTH"
-//    }
-  }
 
+    dynamic "auth" {
+      for_each = var.private_repository ? [""] : []
+      content {
+        type     = "OAUTH"
+        resource = join("", aws_codebuild_source_credential.authorization.*.id)
+      }
+    }
+  }
+  source_version                  = var.source_version
   tags                            = merge(local.shared_tags)
+
+  badge_enabled                   = var.badge_enabled
 }
 

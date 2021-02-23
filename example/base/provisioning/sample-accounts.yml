@@ -1,7 +1,0 @@
-# c7n-org config file
-
-subscriptions:
-  - name: "demo-subscription"
-    subscription_id: "12345-12345-12345-12345"
-    tags:
-      - env:demo

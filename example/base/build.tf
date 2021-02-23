@@ -8,8 +8,8 @@ module "codebuild" {
 
   aws_region                    = var.aws_region
   buildspec_filepath            = var.buildspec_filepath
-  image_version                 = var.image_version
-  image_env                     = var.image_env
+  image_repo_name               = var.image_repo_name
+  image_tag                     = var.image_tag
   build_source_type             = var.build_source_type
   build_source_location         = var.build_source_location
   codebuild_role                = var.codebuild_role
@@ -21,4 +21,8 @@ module "codebuild" {
   add_eventrule                 = var.add_eventrule
   add_eventtarget               = var.add_eventtarget
   schedule                      = var.schedule
+  private_repository            = var.private_repository
+  source_credential_auth_type   = var.source_credential_auth_type
+  source_credential_server_type = var.source_credential_server_type
+  source_credential_token       = var.source_credential_token
 }

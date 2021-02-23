@@ -20,10 +20,6 @@ variable "build_source_location" {}
 
 variable "aws_region" {}
 
-variable "image_version" {}
-
-variable "image_env" {}
-
 variable "buildspec_filepath" {}
 
 # var.codebuild_environment_vars
@@ -44,7 +40,7 @@ variable "environment_vars" {
 }
 
 variable build_timeout {
-  default = "30"
+  default = "60"
 }
 
 variable "queued_timeout" {
@@ -88,4 +84,64 @@ variable "add_eventtarget" {
 
 variable "add_eventrule" {
   default = false
+}
+
+variable "source_version" {
+  default = "main"
+}
+
+variable "git_clone_depth" {
+  default = 1
+}
+
+variable "image_repo_name" {
+  type        = string
+  default     = "UNSET"
+  description = "(Optional) ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
+}
+
+variable "image_tag" {
+  type        = string
+  default     = "latest"
+  description = "(Optional) Docker image tag in the ECR repository, e.g. 'latest'. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
+}
+
+variable "override_artifact_name" {
+  default = false
+}
+
+variable "badge_enabled" {
+  type        = bool
+  default     = false
+  description = "Generates a publicly-accessible URL for the projects build badge. Available as badge_url attribute when enabled"
+}
+
+variable "private_repository" {
+  type        = bool
+  default     = false
+  description = "Set to true to login into private repository with credentials supplied in source_credential variable."
+}
+
+variable "source_credential_auth_type" {
+  type        = string
+  default     = "PERSONAL_ACCESS_TOKEN"
+  description = "The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository."
+}
+
+variable "source_credential_server_type" {
+  type        = string
+  default     = "GITHUB"
+  description = "The source provider used for this project."
+}
+
+variable "source_credential_token" {
+  type        = string
+  default     = ""
+  description = "For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password."
+}
+
+variable "source_credential_user_name" {
+  type        = string
+  default     = ""
+  description = "The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections."
 }
