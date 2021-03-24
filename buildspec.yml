@@ -1,0 +1,13 @@
+version: 0.2
+
+env:
+  variables:
+    IMAGE_REPO_NAME: "nginx"
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  pre_build:
+    commands:
+      - echo "test $IMAGE_REPO_NAME"
