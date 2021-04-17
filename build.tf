@@ -31,7 +31,7 @@ resource "aws_codebuild_project" "codebuild" {
     type            = var.build_source_type
     location        = var.build_source_location
     git_clone_depth = var.git_clone_depth
-    buildspec       = file("${path.module}/buildspec.yml")
+    buildspec       = local.buildspec_filepath #file("${path.module}/buildspec.yml")
 
     dynamic "auth" {
       for_each = var.private_repository ? [""] : []
