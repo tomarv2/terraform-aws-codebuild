@@ -13,7 +13,7 @@ resource "aws_codebuild_project" "codebuild" {
 
   environment {
     compute_type    = var.compute_type
-    image           = "${var.image_repo_name}:${var.image_tag}"
+    image           = var.build_container_image
     type            = var.container_type
     privileged_mode = var.privileged_mode
 
@@ -31,7 +31,7 @@ resource "aws_codebuild_project" "codebuild" {
     type            = var.build_source_type
     location        = var.build_source_location
     git_clone_depth = var.git_clone_depth
-    buildspec       = local.buildspec_filepath #file("${path.module}/buildspec.yml")
+    buildspec       = file(local.buildspec_filepath)
 
     dynamic "auth" {
       for_each = var.private_repository ? [""] : []
@@ -55,4 +55,3 @@ resource "aws_codebuild_project" "codebuild" {
     }
   }
 }
-

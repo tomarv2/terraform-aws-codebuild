@@ -4,5 +4,5 @@ locals {
     "team", var.teamid,
     "project", var.prjid
   )
-  buildspec_filepath = var.buildspec_filepath != "" ? var.buildspec_filepath : file("${path.module}/buildspec.yml")
+  buildspec_filepath = var.buildspec_filepath != "" ? var.buildspec_filepath : "${path.module}/buildspec.yml"
 }

@@ -1,29 +1,40 @@
 variable "teamid" {
   description = "(Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
+  type        = string
 }
 
 variable "prjid" {
   description = "(Required) Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply'"
+  type        = string
 }
 
 variable "profile_to_use" {
   description = "Getting values from ~/.aws/credentials"
   default     = "default"
+  type        = string
 }
 
 variable "build_source_type" {
-
-  default = "GITHUB"
+  description = "Type of repository that contains the source code to be built. Valid values: CODECOMMIT, CODEPIPELINE, GITHUB, GITHUB_ENTERPRISE, BITBUCKET or S3"
+  default     = "GITHUB"
+  type        = string
 }
 
-variable "build_source_location" {}
+variable "build_source_location" {
+  description = "Information about the build output artifact location. If type is set to CODEPIPELINE or NO_ARTIFACTS, this value is ignored. If type is set to S3, this is the name of the output bucket."
+  type        = string
+}
 
 variable "aws_region" {
-  default = "us-west-2"
+  description = "aws region to deploy resource(s)"
+  default     = "us-west-2"
+  type        = string
 }
 
 variable "buildspec_filepath" {
-  default = ""
+  description = "Build specification to use for this build project's related builds."
+  default     = ""
+  type        = string
 }
 
 # var.codebuild_environment_vars
@@ -39,84 +50,102 @@ variable "environment_vars" {
       value = "TRUE"
       type  = "PLAINTEXT"
   }]
-
   description = "A list of maps, that contain both the key 'name' and the key 'value' to be used as additional environment variables for the build"
 }
 
 variable "build_timeout" {
-  default = "60"
+  description = "Number of minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes."
+  default     = "60"
+  type        = string
 }
 
 variable "queued_timeout" {
-  default = "30"
+  description = "Number of minutes, from 5 to 480 (8 hours), a build is allowed to be queued before it times out. The default is 8 hours."
+  default     = "30"
+  type        = string
 }
+
 variable "compute_type" {
-  default = "BUILD_GENERAL1_SMALL"
+  description = "Information about the compute resources the build project will use. Valid values: BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_GENERAL1_LARGE, BUILD_GENERAL1_2XLARGE. BUILD_GENERAL1_SMALL is only valid if type is set to LINUX_CONTAINER. When type is set to LINUX_GPU_CONTAINER, compute_type must be BUILD_GENERAL1_LARGE."
+  default     = "BUILD_GENERAL1_MEDIUM"
+  type        = string
 }
 
 variable "container_type" {
-  default = "LINUX_CONTAINER"
+  description = "Type of build environment to use for related builds. Valid values: LINUX_CONTAINER, LINUX_GPU_CONTAINER, WINDOWS_CONTAINER (deprecated), WINDOWS_SERVER_2019_CONTAINER, ARM_CONTAINER. For additional information, see the CodeBuild User Guide."
+  default     = "LINUX_CONTAINER"
+  type        = string
 }
 
 variable "schedule" {
-  default = null
+  description = "cloudwatch event schedule"
+  default     = null
+  type        = string
 }
 
 variable "branch" {
-
-  default = "main"
-}
-
-variable "trigger_timeout" {
-  default = 60
+  description = "cloudwatch event branch"
+  default     = "main"
+  type        = string
 }
 
 variable "description" {
-  default = null
+  description = "Short description of the project."
+  default     = null
+  type        = string
 }
 
 variable "codebuild_role" {
-  description = "service role to be used by CICD"
+  description = "Service role to be used by cicd"
+  type        = string
 }
 
 variable "build_artifact_type" {
-  default = "NO_ARTIFACTS"
+  description = "Build output artifact's type. Valid values: CODEPIPELINE, NO_ARTIFACTS, S3."
+  default     = "NO_ARTIFACTS"
+  type        = string
 }
 
 variable "privileged_mode" {
-  default = true
+  description = "Whether to enable running the Docker daemon inside a Docker container. Defaults to false."
+  default     = false
+  type        = bool
 }
 
 variable "deploy_event_target" {
-  default = false
+  description = "Deploy cloudwatch event trigger"
+  default     = false
+  type        = bool
 }
 
 variable "deploy_event_rule" {
-  default = false
+  description = "Deploy cloudwatch event rule"
+  default     = false
+  type        = bool
 }
 
 variable "source_version" {
-  default = "main"
+  description = "A string that identifies the action type."
+  default     = "main"
+  type        = string
 }
 
 variable "git_clone_depth" {
-  default = 1
+  description = "Truncate git history to this many commits. Use 0 for a Full checkout which you need to run commands like git branch --show-current. See AWS CodePipeline User Guide: Tutorial: Use full clone with a GitHub pipeline source for details."
+  default     = 1
+  type        = number
 }
 
-variable "image_repo_name" {
+variable "build_container_image" {
   type        = string
   default     = "UNSET"
-  description = "(Optional) ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
-}
-
-variable "image_tag" {
-  type        = string
-  default     = "latest"
-  description = "(Optional) Docker image tag in the ECR repository, e.g. 'latest'. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
+  description = "Docker image to use for this build project. Valid values include Docker images provided by CodeBuild (e.g aws/codebuild/standard:2.0)."
 }
 
 variable "override_artifact_name" {
-  default = false
+  description = "Whether a name specified in the build specification overrides the artifact name."
+  default     = false
+  type        = bool
 }
 
 variable "badge_enabled" {
@@ -138,28 +167,29 @@ variable "source_credential_auth_type" {
 }
 
 variable "source_credential_server_type" {
+  description = "The source provider used for this project."
   type        = string
   default     = "GITHUB"
-  description = "The source provider used for this project."
-}
-
-variable "source_credential_token" {
-  type        = string
-  default     = ""
-  description = "For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password."
 }
 
 variable "source_credential_user_name" {
   type        = string
   default     = ""
-  description = "The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections."
+  description = "Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections."
 }
 
 variable "cloudwatch_path" {
-  description = "name of the log group"
+  description = "Name of the log group"
   default     = "codebuild"
+  type        = string
 }
 
 variable "cloudwatch_logs_status" {
-  default = "ENABLED"
+  description = "Current status of logs in CloudWatch Logs for a build project. Valid values: ENABLED, DISABLED. Defaults to ENABLED."
+  default     = "ENABLED"
+  type        = string
+}
+variable "source_credential_token" {
+  description = "For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password."
+  type        = string
 }
