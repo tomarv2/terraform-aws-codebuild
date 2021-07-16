@@ -19,7 +19,7 @@ module "codebuild" {
       {
         exclude_matched_pattern = false
         type                    = "HEAD_REF"
-        pattern                 = "test"
+        pattern                 = "dev" # branch name
     }]
   }]
 
