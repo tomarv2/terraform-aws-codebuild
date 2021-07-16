@@ -4,8 +4,7 @@ resource "aws_codebuild_project" "codebuild" {
   description    = var.description == null ? "Terraform managed: ${var.teamid}-${var.prjid}" : var.description
   build_timeout  = var.build_timeout
   queued_timeout = var.queued_timeout
-  # NOTE: this role should pre-exist or can be created at runtime
-  service_role = var.codebuild_role
+  service_role   = var.codebuild_role
   artifacts {
     type                   = var.build_artifact_type
     override_artifact_name = var.override_artifact_name
@@ -51,6 +50,35 @@ resource "aws_codebuild_project" "codebuild" {
     cloudwatch_logs {
       group_name = "/${var.cloudwatch_path}/${var.teamid}-${var.prjid}"
       status     = var.cloudwatch_logs_status
+
+    }
+  }
+}
+
+resource "aws_codebuild_source_credential" "example" {
+  auth_type   = var.source_credential_auth_type
+  server_type = var.build_source_type
+  token       = var.source_credential_token
+}
+
+resource "aws_codebuild_webhook" "codebuild_webook" {
+  project_name = aws_codebuild_project.codebuild.name
+
+  dynamic "filter_group" {
+    for_each = var.filter_group
+    content {
+
+      dynamic "filter" {
+        for_each = filter_group.value.filter
+        content {
+          # exclude_matched_pattern - (optional) is a type of bool
+          exclude_matched_pattern = filter.value["exclude_matched_pattern"]
+          # pattern - (required) is a type of string
+          pattern = filter.value["pattern"]
+          # type - (required) is a type of string
+          type = filter.value["type"]
+        }
+      }
 
     }
   }

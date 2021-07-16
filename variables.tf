@@ -138,7 +138,7 @@ variable "git_clone_depth" {
 
 variable "build_container_image" {
   type        = string
-  default     = "UNSET"
+  default     = "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
   description = "Docker image to use for this build project. Valid values include Docker images provided by CodeBuild (e.g aws/codebuild/standard:2.0)."
 }
 
@@ -192,4 +192,20 @@ variable "cloudwatch_logs_status" {
 variable "source_credential_token" {
   description = "For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password."
   type        = string
+}
+
+variable "filter_group" {
+  description = "nested block: NestingSet, min items: 0, max items: 0"
+  type = set(object(
+    {
+      filter = list(object(
+        {
+          exclude_matched_pattern = bool
+          pattern                 = string
+          type                    = string
+        }
+      ))
+    }
+  ))
+  default = []
 }
