@@ -10,8 +10,8 @@ module "cloudwatch_event" {
   service_role = var.codebuild_role
   #-----------------------------------------------
   # Note: Do not change teamid and prjid once set.
-  teamid = var.prjid
-  prjid  = var.teamid
+  teamid = var.teamid
+  prjid  = var.prjid
 }
 
 module "cloudwatch" {
@@ -20,6 +20,6 @@ module "cloudwatch" {
   cloudwatch_path = var.cloudwatch_path
   #-----------------------------------------------
   # Note: Do not change teamid and prjid once set.
-  teamid = var.prjid
-  prjid  = var.teamid
+  teamid = var.teamid
+  prjid  = var.prjid
 }
