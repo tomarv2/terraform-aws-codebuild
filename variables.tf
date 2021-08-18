@@ -53,6 +53,12 @@ variable "environment_vars" {
   description = "A list of maps, that contain both the key 'name' and the key 'value' to be used as additional environment variables for the build"
 }
 
+variable "vpc_config" {
+  type        = any
+  default     = {}
+  description = "Configuration for the builds to run inside a VPC."
+}
+
 variable "build_timeout" {
   description = "Number of minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes."
   default     = "60"
@@ -126,7 +132,7 @@ variable "deploy_event_rule" {
 
 variable "source_version" {
   description = "A string that identifies the action type."
-  default     = "main"
+  default     = null
   type        = string
 }
 
@@ -208,4 +214,16 @@ variable "filter_group" {
     }
   ))
   default = []
+}
+
+variable "concurrent_build_limit" {
+  default     = 1
+  type        = number
+  description = "Specify a maximum number of concurrent builds for the project. The value specified must be greater than 0 and less than the account concurrent running builds limit."
+}
+
+variable "build_type" {
+  default     = "BUILD"
+  type        = string
+  description = "The type of build this webhook will trigger. Valid values for this parameter are: BUILD, BUILD_BATCH."
 }

@@ -1,10 +1,11 @@
 resource "aws_codebuild_project" "codebuild" {
   name = "${var.teamid}-${var.prjid}"
 
-  description    = var.description == null ? "Terraform managed: ${var.teamid}-${var.prjid}" : var.description
-  build_timeout  = var.build_timeout
-  queued_timeout = var.queued_timeout
-  service_role   = var.codebuild_role
+  description            = var.description == null ? "Terraform managed: ${var.teamid}-${var.prjid}" : var.description
+  build_timeout          = var.build_timeout
+  queued_timeout         = var.queued_timeout
+  service_role           = var.codebuild_role
+  concurrent_build_limit = var.concurrent_build_limit
   artifacts {
     type                   = var.build_artifact_type
     override_artifact_name = var.override_artifact_name
@@ -33,7 +34,8 @@ resource "aws_codebuild_project" "codebuild" {
     buildspec       = file(local.buildspec_filepath)
 
     dynamic "auth" {
-      for_each = var.private_repository ? [""] : []
+      for_each = var.private_repository ? [
+      ""] : []
       content {
         type     = "OAUTH"
         resource = join("", aws_codebuild_source_credential.authorization.*.id)
@@ -53,9 +55,18 @@ resource "aws_codebuild_project" "codebuild" {
 
     }
   }
+
+  dynamic "vpc_config" {
+    for_each = length(var.vpc_config) > 0 ? [""] : []
+    content {
+      vpc_id             = lookup(var.vpc_config, "vpc_id", null)
+      subnets            = lookup(var.vpc_config, "subnets", null)
+      security_group_ids = lookup(var.vpc_config, "security_group_ids", null)
+    }
+  }
 }
 
-resource "aws_codebuild_source_credential" "example" {
+resource "aws_codebuild_source_credential" "source_credentials" {
   auth_type   = var.source_credential_auth_type
   server_type = var.build_source_type
   token       = var.source_credential_token
@@ -69,7 +80,8 @@ resource "aws_codebuild_webhook" "codebuild_webook" {
     content {
 
       dynamic "filter" {
-        for_each = filter_group.value.filter
+        for_each   = filter_group.value.filter
+        build_type = var.build_type
         content {
           # exclude_matched_pattern - (optional) is a type of bool
           exclude_matched_pattern = filter.value["exclude_matched_pattern"]
