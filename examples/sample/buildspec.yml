@@ -1,0 +1,40 @@
+version: 0.2
+
+env:
+  variables:
+    TF_LOG_LEVEL: "info"
+    PATHFINDER_LOG_LEVEL: "debug"
+    TEAMID: "demo"
+    PRJID: "app"
+  parameter-store:
+    TF_AWS_BUCKET: /demo/app/bucket
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - echo "[+] Installing dependencies & Configuring environment..."
+      - pip install jq tfremote
+      - pip install git+https://$GIT_PAT@github.com/tomarv2/cicd-pathfinder.git
+      - export DICT_PATH='{"aws":"'$CODEBUILD_SRC_DIR'/aws", "demo":"'$CODEBUILD_SRC_DIR'/demo"}'
+  pre_build:
+    commands:
+      - echo "[+] Initialize setup, Running tests, Check formatting..."
+      - |
+        if [ $GITHUB_DESTINATION_BRANCH == main ]; then
+          echo "Prod env"
+        else
+          echo "NonProd env"
+        fi
+    finally:
+      - echo "[+] Pre build completed..."
+  build:
+    commands:
+      - echo "[+] Starting deployment..."
+    finally:
+      - echo $CODEBUILD_BUILD_SUCCEEDING
+      - echo "[+] Deployment completed..."
+  post_build:
+    commands:
+      - echo "[+] Terraform Deployment completed on `date`"

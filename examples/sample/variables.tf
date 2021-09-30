@@ -11,4 +11,5 @@ variable "prjid" {
 variable "source_credential_token" {
   description = "For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password."
   type        = string
+  sensitive   = true
 }

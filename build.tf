@@ -66,22 +66,18 @@ resource "aws_codebuild_project" "codebuild" {
   }
 }
 
-resource "aws_codebuild_source_credential" "source_credentials" {
-  auth_type   = var.source_credential_auth_type
-  server_type = var.build_source_type
-  token       = var.source_credential_token
-}
-
 resource "aws_codebuild_webhook" "codebuild_webook" {
-  project_name = aws_codebuild_project.codebuild.name
+  count = var.build_source_type == "GITHUB" ? 1 : 0
 
+  project_name = aws_codebuild_project.codebuild.name
+  build_type   = var.build_type
   dynamic "filter_group" {
     for_each = var.filter_group
     content {
 
       dynamic "filter" {
-        for_each   = filter_group.value.filter
-        build_type = var.build_type
+        for_each = filter_group.value.filter
+
         content {
           # exclude_matched_pattern - (optional) is a type of bool
           exclude_matched_pattern = filter.value["exclude_matched_pattern"]

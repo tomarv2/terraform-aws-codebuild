@@ -23,6 +23,7 @@ variable "build_source_type" {
 variable "build_source_location" {
   description = "Information about the build output artifact location. If type is set to CODEPIPELINE or NO_ARTIFACTS, this value is ignored. If type is set to S3, this is the name of the output bucket."
   type        = string
+  default     = null
 }
 
 variable "aws_region" {
