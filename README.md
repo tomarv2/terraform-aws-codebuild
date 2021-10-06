@@ -147,7 +147,7 @@ Please refer to example directory [link](examples) for references.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudwatch"></a> [cloudwatch](#module\_cloudwatch) | git::git@github.com:tomarv2/terraform-aws-cloudwatch.git | v0.0.2 |
+| <a name="module_cloudwatch"></a> [cloudwatch](#module\_cloudwatch) | git::git@github.com:tomarv2/terraform-aws-cloudwatch.git | v0.0.4 |
 | <a name="module_cloudwatch_event"></a> [cloudwatch\_event](#module\_cloudwatch\_event) | git::git@github.com:tomarv2/terraform-aws-cloudwatch-events.git | v0.0.4 |
 
 ## Resources
@@ -156,7 +156,7 @@ Please refer to example directory [link](examples) for references.
 |------|------|
 | [aws_codebuild_project.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
 | [aws_codebuild_source_credential.authorization](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_source_credential) | resource |
-| [aws_codebuild_source_credential.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_source_credential) | resource |
+| [aws_codebuild_source_credential.source_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_source_credential) | resource |
 | [aws_codebuild_webhook.codebuild_webook](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_webhook) | resource |
 
 ## Inputs
@@ -168,15 +168,18 @@ Please refer to example directory [link](examples) for references.
 | <a name="input_branch"></a> [branch](#input\_branch) | cloudwatch event branch | `string` | `"main"` | no |
 | <a name="input_build_artifact_type"></a> [build\_artifact\_type](#input\_build\_artifact\_type) | Build output artifact's type. Valid values: CODEPIPELINE, NO\_ARTIFACTS, S3. | `string` | `"NO_ARTIFACTS"` | no |
 | <a name="input_build_container_image"></a> [build\_container\_image](#input\_build\_container\_image) | Docker image to use for this build project. Valid values include Docker images provided by CodeBuild (e.g aws/codebuild/standard:2.0). | `string` | `"aws/codebuild/amazonlinux2-x86_64-standard:3.0"` | no |
-| <a name="input_build_source_location"></a> [build\_source\_location](#input\_build\_source\_location) | Information about the build output artifact location. If type is set to CODEPIPELINE or NO\_ARTIFACTS, this value is ignored. If type is set to S3, this is the name of the output bucket. | `string` | n/a | yes |
+| <a name="input_build_source_location"></a> [build\_source\_location](#input\_build\_source\_location) | Information about the build output artifact location. If type is set to CODEPIPELINE or NO\_ARTIFACTS, this value is ignored. If type is set to S3, this is the name of the output bucket. | `string` | `null` | no |
 | <a name="input_build_source_type"></a> [build\_source\_type](#input\_build\_source\_type) | Type of repository that contains the source code to be built. Valid values: CODECOMMIT, CODEPIPELINE, GITHUB, GITHUB\_ENTERPRISE, BITBUCKET or S3 | `string` | `"GITHUB"` | no |
 | <a name="input_build_timeout"></a> [build\_timeout](#input\_build\_timeout) | Number of minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes. | `string` | `"60"` | no |
+| <a name="input_build_type"></a> [build\_type](#input\_build\_type) | The type of build this webhook will trigger. Valid values for this parameter are: BUILD, BUILD\_BATCH. | `string` | `"BUILD"` | no |
 | <a name="input_buildspec_filepath"></a> [buildspec\_filepath](#input\_buildspec\_filepath) | Build specification to use for this build project's related builds. | `string` | `""` | no |
 | <a name="input_cloudwatch_logs_status"></a> [cloudwatch\_logs\_status](#input\_cloudwatch\_logs\_status) | Current status of logs in CloudWatch Logs for a build project. Valid values: ENABLED, DISABLED. Defaults to ENABLED. | `string` | `"ENABLED"` | no |
 | <a name="input_cloudwatch_path"></a> [cloudwatch\_path](#input\_cloudwatch\_path) | Name of the log group | `string` | `"codebuild"` | no |
 | <a name="input_codebuild_role"></a> [codebuild\_role](#input\_codebuild\_role) | Service role to be used by cicd | `string` | n/a | yes |
 | <a name="input_compute_type"></a> [compute\_type](#input\_compute\_type) | Information about the compute resources the build project will use. Valid values: BUILD\_GENERAL1\_SMALL, BUILD\_GENERAL1\_MEDIUM, BUILD\_GENERAL1\_LARGE, BUILD\_GENERAL1\_2XLARGE. BUILD\_GENERAL1\_SMALL is only valid if type is set to LINUX\_CONTAINER. When type is set to LINUX\_GPU\_CONTAINER, compute\_type must be BUILD\_GENERAL1\_LARGE. | `string` | `"BUILD_GENERAL1_MEDIUM"` | no |
+| <a name="input_concurrent_build_limit"></a> [concurrent\_build\_limit](#input\_concurrent\_build\_limit) | Specify a maximum number of concurrent builds for the project. The value specified must be greater than 0 and less than the account concurrent running builds limit. | `number` | `1` | no |
 | <a name="input_container_type"></a> [container\_type](#input\_container\_type) | Type of build environment to use for related builds. Valid values: LINUX\_CONTAINER, LINUX\_GPU\_CONTAINER, WINDOWS\_CONTAINER (deprecated), WINDOWS\_SERVER\_2019\_CONTAINER, ARM\_CONTAINER. For additional information, see the CodeBuild User Guide. | `string` | `"LINUX_CONTAINER"` | no |
+| <a name="input_custom_tags"></a> [custom\_tags](#input\_custom\_tags) | Custom extra tags | `any` | `null` | no |
 | <a name="input_deploy_event_rule"></a> [deploy\_event\_rule](#input\_deploy\_event\_rule) | Deploy cloudwatch event rule | `bool` | `false` | no |
 | <a name="input_deploy_event_target"></a> [deploy\_event\_target](#input\_deploy\_event\_target) | Deploy cloudwatch event trigger | `bool` | `false` | no |
 | <a name="input_description"></a> [description](#input\_description) | Short description of the project. | `string` | `null` | no |
@@ -194,8 +197,9 @@ Please refer to example directory [link](examples) for references.
 | <a name="input_source_credential_server_type"></a> [source\_credential\_server\_type](#input\_source\_credential\_server\_type) | The source provider used for this project. | `string` | `"GITHUB"` | no |
 | <a name="input_source_credential_token"></a> [source\_credential\_token](#input\_source\_credential\_token) | For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password. | `string` | n/a | yes |
 | <a name="input_source_credential_user_name"></a> [source\_credential\_user\_name](#input\_source\_credential\_user\_name) | Bitbucket username when the authType is BASIC\_AUTH. This parameter is not valid for other types of source providers or connections. | `string` | `""` | no |
-| <a name="input_source_version"></a> [source\_version](#input\_source\_version) | A string that identifies the action type. | `string` | `"main"` | no |
+| <a name="input_source_version"></a> [source\_version](#input\_source\_version) | A string that identifies the action type. | `string` | `null` | no |
 | <a name="input_teamid"></a> [teamid](#input\_teamid) | (Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `string` | n/a | yes |
+| <a name="input_vpc_config"></a> [vpc\_config](#input\_vpc\_config) | Configuration for the builds to run inside a VPC. | `any` | `{}` | no |
 
 ## Outputs
 

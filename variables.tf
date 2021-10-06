@@ -228,3 +228,9 @@ variable "build_type" {
   type        = string
   description = "The type of build this webhook will trigger. Valid values for this parameter are: BUILD, BUILD_BATCH."
 }
+
+variable "custom_tags" {
+  type        = any
+  description = "Custom extra tags"
+  default     = null
+}
