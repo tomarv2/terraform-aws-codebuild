@@ -50,7 +50,7 @@ resource "aws_codebuild_project" "codebuild" {
 
   logs_config {
     cloudwatch_logs {
-      group_name = "/${var.cloudwatch_path}/${var.teamid}-${var.prjid}"
+      group_name = "${var.cloudwatch_path}/${var.teamid}-${var.prjid}"
       status     = var.cloudwatch_logs_status
 
     }

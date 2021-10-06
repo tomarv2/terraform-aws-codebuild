@@ -187,7 +187,7 @@ variable "source_credential_user_name" {
 
 variable "cloudwatch_path" {
   description = "Name of the log group"
-  default     = "codebuild"
+  default     = "/codebuild"
   type        = string
 }
 
