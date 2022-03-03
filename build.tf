@@ -81,9 +81,9 @@ resource "aws_codebuild_webhook" "codebuild_webook" {
         content {
           # exclude_matched_pattern - (optional) is a type of bool
           exclude_matched_pattern = filter.value["exclude_matched_pattern"]
-          # pattern - (required) is a type of string
+          # pattern - is a type of string
           pattern = filter.value["pattern"]
-          # type - (required) is a type of string
+          # type - is a type of string
           type = filter.value["type"]
         }
       }

@@ -29,9 +29,9 @@ module "codebuild" {
   ]
 
   vpc_config = {
-    vpc_id             = module.vpc.vpc_id
-    subnets            = module.subnets.private_subnet_ids
-    security_group_ids = [module.vpc.vpc_default_security_group_id]
+    vpc_id             = "<vpc_id>"
+    subnets            = "<vpc_subnet_id>"
+    security_group_ids = ["<vpc_security_group_id>"]
   }
 
   # To configure schedule

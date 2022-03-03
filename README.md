@@ -9,8 +9,6 @@
         <img src="https://img.shields.io/github/commit-activity/m/tomarv2/terraform-aws-codebuild" /></a>
     <a href="https://stackoverflow.com/users/6679867/tomarv2" alt="Stack Exchange reputation">
         <img src="https://img.shields.io/stackexchange/stackoverflow/r/6679867"></a>
-    <a href="https://discord.gg/XH975bzN" alt="chat on Discord">
-        <img src="https://img.shields.io/discord/813961944443912223?logo=discord"></a>
     <a href="https://twitter.com/intent/follow?screen_name=varuntomar2019" alt="follow on Twitter">
         <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
 </p>
@@ -20,7 +18,7 @@
 ## Versions
 
 - Module tested for Terraform 1.0.1.
-- AWS provider version [3.47.0](https://registry.terraform.io/providers/hashicorp/aws/latest).
+- AWS provider version [3.63](https://registry.terraform.io/providers/hashicorp/aws/latest).
 - `main` branch: Provider versions not pinned to keep up with Terraform releases.
 - `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-aws-codebuild/tags" alt="GitHub tag">
         <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-aws-codebuild" /></a>).
@@ -135,13 +133,13 @@ Please refer to example directory [link](examples) for references.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.1 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.47 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.63 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.47 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.63 |
 
 ## Modules
 
@@ -163,7 +161,6 @@ Please refer to example directory [link](examples) for references.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | aws region to deploy resource(s) | `string` | `"us-west-2"` | no |
 | <a name="input_badge_enabled"></a> [badge\_enabled](#input\_badge\_enabled) | Generates a publicly-accessible URL for the projects build badge. Available as badge\_url attribute when enabled | `bool` | `false` | no |
 | <a name="input_branch"></a> [branch](#input\_branch) | cloudwatch event branch | `string` | `"main"` | no |
 | <a name="input_build_artifact_type"></a> [build\_artifact\_type](#input\_build\_artifact\_type) | Build output artifact's type. Valid values: CODEPIPELINE, NO\_ARTIFACTS, S3. | `string` | `"NO_ARTIFACTS"` | no |
@@ -174,7 +171,7 @@ Please refer to example directory [link](examples) for references.
 | <a name="input_build_type"></a> [build\_type](#input\_build\_type) | The type of build this webhook will trigger. Valid values for this parameter are: BUILD, BUILD\_BATCH. | `string` | `"BUILD"` | no |
 | <a name="input_buildspec_filepath"></a> [buildspec\_filepath](#input\_buildspec\_filepath) | Build specification to use for this build project's related builds. | `string` | `""` | no |
 | <a name="input_cloudwatch_logs_status"></a> [cloudwatch\_logs\_status](#input\_cloudwatch\_logs\_status) | Current status of logs in CloudWatch Logs for a build project. Valid values: ENABLED, DISABLED. Defaults to ENABLED. | `string` | `"ENABLED"` | no |
-| <a name="input_cloudwatch_path"></a> [cloudwatch\_path](#input\_cloudwatch\_path) | Name of the log group | `string` | `"codebuild"` | no |
+| <a name="input_cloudwatch_path"></a> [cloudwatch\_path](#input\_cloudwatch\_path) | Name of the log group | `string` | `"/codebuild"` | no |
 | <a name="input_codebuild_role"></a> [codebuild\_role](#input\_codebuild\_role) | Service role to be used by cicd | `string` | n/a | yes |
 | <a name="input_compute_type"></a> [compute\_type](#input\_compute\_type) | Information about the compute resources the build project will use. Valid values: BUILD\_GENERAL1\_SMALL, BUILD\_GENERAL1\_MEDIUM, BUILD\_GENERAL1\_LARGE, BUILD\_GENERAL1\_2XLARGE. BUILD\_GENERAL1\_SMALL is only valid if type is set to LINUX\_CONTAINER. When type is set to LINUX\_GPU\_CONTAINER, compute\_type must be BUILD\_GENERAL1\_LARGE. | `string` | `"BUILD_GENERAL1_MEDIUM"` | no |
 | <a name="input_concurrent_build_limit"></a> [concurrent\_build\_limit](#input\_concurrent\_build\_limit) | Specify a maximum number of concurrent builds for the project. The value specified must be greater than 0 and less than the account concurrent running builds limit. | `number` | `1` | no |
@@ -189,8 +186,7 @@ Please refer to example directory [link](examples) for references.
 | <a name="input_override_artifact_name"></a> [override\_artifact\_name](#input\_override\_artifact\_name) | Whether a name specified in the build specification overrides the artifact name. | `bool` | `false` | no |
 | <a name="input_private_repository"></a> [private\_repository](#input\_private\_repository) | Set to true to login into private repository with credentials supplied in source\_credential variable. | `bool` | `true` | no |
 | <a name="input_privileged_mode"></a> [privileged\_mode](#input\_privileged\_mode) | Whether to enable running the Docker daemon inside a Docker container. Defaults to false. | `bool` | `false` | no |
-| <a name="input_prjid"></a> [prjid](#input\_prjid) | (Required) Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply' | `string` | n/a | yes |
-| <a name="input_profile_to_use"></a> [profile\_to\_use](#input\_profile\_to\_use) | Getting values from ~/.aws/credentials | `string` | `"default"` | no |
+| <a name="input_prjid"></a> [prjid](#input\_prjid) | Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply' | `string` | n/a | yes |
 | <a name="input_queued_timeout"></a> [queued\_timeout](#input\_queued\_timeout) | Number of minutes, from 5 to 480 (8 hours), a build is allowed to be queued before it times out. The default is 8 hours. | `string` | `"30"` | no |
 | <a name="input_schedule"></a> [schedule](#input\_schedule) | cloudwatch event schedule | `string` | `null` | no |
 | <a name="input_source_credential_auth_type"></a> [source\_credential\_auth\_type](#input\_source\_credential\_auth\_type) | The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. | `string` | `"PERSONAL_ACCESS_TOKEN"` | no |
@@ -198,7 +194,7 @@ Please refer to example directory [link](examples) for references.
 | <a name="input_source_credential_token"></a> [source\_credential\_token](#input\_source\_credential\_token) | For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password. | `string` | n/a | yes |
 | <a name="input_source_credential_user_name"></a> [source\_credential\_user\_name](#input\_source\_credential\_user\_name) | Bitbucket username when the authType is BASIC\_AUTH. This parameter is not valid for other types of source providers or connections. | `string` | `""` | no |
 | <a name="input_source_version"></a> [source\_version](#input\_source\_version) | A string that identifies the action type. | `string` | `null` | no |
-| <a name="input_teamid"></a> [teamid](#input\_teamid) | (Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `string` | n/a | yes |
+| <a name="input_teamid"></a> [teamid](#input\_teamid) | Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `string` | n/a | yes |
 | <a name="input_vpc_config"></a> [vpc\_config](#input\_vpc\_config) | Configuration for the builds to run inside a VPC. | `any` | `{}` | no |
 
 ## Outputs
