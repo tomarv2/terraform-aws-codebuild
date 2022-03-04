@@ -15,7 +15,7 @@ module "cloudwatch_event" {
 }
 
 module "cloudwatch" {
-  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.4"
+  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.7"
 
   cloudwatch_path = var.cloudwatch_path
   custom_tags     = var.custom_tags
