@@ -124,24 +124,25 @@ module "codebuild" {
 
 Please refer to example directory [link](examples) for references.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.1 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.63 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.74 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.63 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.74 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudwatch"></a> [cloudwatch](#module\_cloudwatch) | git::git@github.com:tomarv2/terraform-aws-cloudwatch.git | v0.0.4 |
+| <a name="module_cloudwatch"></a> [cloudwatch](#module\_cloudwatch) | git::git@github.com:tomarv2/terraform-aws-cloudwatch.git | v0.0.7 |
 | <a name="module_cloudwatch_event"></a> [cloudwatch\_event](#module\_cloudwatch\_event) | git::git@github.com:tomarv2/terraform-aws-cloudwatch-events.git | v0.0.4 |
 
 ## Resources
@@ -199,3 +200,4 @@ Please refer to example directory [link](examples) for references.
 |------|-------------|
 | <a name="output_codebuild_project_arn"></a> [codebuild\_project\_arn](#output\_codebuild\_project\_arn) | The ARN of the CodeBuild project. |
 | <a name="output_codebuild_project_name"></a> [codebuild\_project\_name](#output\_codebuild\_project\_name) | The name of the AWS codebuild. |
+<!-- END_TF_DOCS -->
