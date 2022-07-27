@@ -16,6 +16,8 @@ phases:
     commands:
       - echo "[+] Installing dependencies & Configuring environment..."
       - pip install jq tfremote
+      - pip install git+https://$GIT_PAT@github.com/tomarv2/cicd-pathfinder.git
+      - export DICT_PATH='{"aws":"'$CODEBUILD_SRC_DIR'/aws", "demo":"'$CODEBUILD_SRC_DIR'/demo"}'
   pre_build:
     commands:
       - echo "[+] Initialize setup, Running tests, Check formatting..."
